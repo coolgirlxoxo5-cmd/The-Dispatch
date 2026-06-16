@@ -478,6 +478,27 @@ img{ max-width: 100%; display: block; }
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* Cards that link to a full piece page */
+.card-link{
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.card-read-more{
+  display: inline-block;
+  font-family: 'Caveat', cursive;
+  font-size: 1.15rem;
+  color: var(--green);
+  margin-top: 0.4rem;
+  transition: transform 0.2s ease;
+}
+
+.card-link:hover .card-read-more{
+  transform: translateX(4px);
+}
+
 .content-card:hover{
   transform: translateY(-6px);
   box-shadow: 0 14px 28px rgba(43,36,32,0.16);
@@ -817,8 +838,91 @@ img{ max-width: 100%; display: block; }
 }
 
 /* =========================================================
-   RESPONSIVE
+   PIECE MODAL (read full piece without leaving the page)
 ========================================================= */
+.piece-modal{
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.piece-modal.open{ display: flex; }
+
+.piece-modal-backdrop{
+  position: absolute;
+  inset: 0;
+  background: rgba(43,36,32,0.55);
+}
+
+.piece-modal-content{
+  position: relative;
+  background: var(--cream);
+  max-width: 700px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 3rem 2.5rem;
+  border-radius: 4px;
+  box-shadow: var(--shadow-soft);
+  z-index: 1;
+}
+
+.piece-modal-close{
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--ink);
+  padding: 0.3rem 0.6rem;
+}
+
+.piece-modal-close:hover{ color: var(--green); }
+
+.piece-modal .piece-label{
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--green);
+  display: block;
+  margin-bottom: 0.8rem;
+}
+
+.piece-modal .piece-title{
+  font-family: 'Fraunces', serif;
+  font-size: clamp(1.7rem, 4vw, 2.4rem);
+  line-height: 1.2;
+  margin: 0 0 0.5rem;
+}
+
+.piece-modal .piece-byline{
+  font-family: 'Caveat', cursive;
+  font-size: 1.25rem;
+  color: var(--green);
+  display: block;
+  margin-bottom: 1.8rem;
+}
+
+.piece-modal .piece-body{
+  font-size: 1.02rem;
+  line-height: 1.7;
+}
+
+.piece-modal .piece-body p{
+  margin: 0 0 1.2rem;
+}
+
+@media (max-width: 600px){
+  .piece-modal{ padding: 0.8rem; }
+  .piece-modal-content{ padding: 2.2rem 1.4rem; max-height: 90vh; }
+}
 @media (max-width: 980px){
   .hero{
     grid-template-columns: 1fr;
@@ -979,7 +1083,7 @@ img{ max-width: 100%; display: block; }
   </div>
 
   <div class="card-grid card-grid--featured">
-    <article class="content-card card-large">
+    <a class="content-card card-large card-link" href="javascript:void(0)" onclick="openPiece('stay-out-of-it')" role="button" tabindex="0">
       <div class="card-image img-political-1"></div>
       <div class="card-body">
         <span class="card-label">political — opinion</span>
@@ -987,17 +1091,19 @@ img{ max-width: 100%; display: block; }
         <p>A 17-year-old's case for why silence has never been neutral, and why this generation
           isn't waiting for permission to speak up.</p>
         <span class="card-byline">— submitted anonymously, age 17</span>
+        <span class="card-read-more">Read piece →</span>
       </div>
-    </article>
+    </a>
 
-    <article class="content-card card-small">
+    <a class="content-card card-small card-link" href="javascript:void(0)" onclick="openPiece('vote-i-cant-cast-yet')" role="button" tabindex="0">
       <div class="card-image img-political-2"></div>
       <div class="card-body">
         <span class="card-label">political — essay</span>
         <h3>The Vote I Can't Cast Yet</h3>
         <p>What it feels like to care deeply about decisions you have no legal say in.</p>
+        <span class="card-read-more">Read piece →</span>
       </div>
-    </article>
+    </a>
   </div>
 
   <div class="annotation annotation-political">
@@ -1014,7 +1120,7 @@ img{ max-width: 100%; display: block; }
   </div>
 
   <div class="card-grid card-grid--scrapbook">
-    <article class="content-card card-tall">
+    <a class="content-card card-tall card-link" href="javascript:void(0)" onclick="openPiece('the-last-bus-home')" role="button" tabindex="0">
       <div class="card-image img-creative-1"></div>
       <div class="card-body">
         <span class="card-label">fiction — short story</span>
@@ -1022,17 +1128,19 @@ img{ max-width: 100%; display: block; }
         <p>Two strangers, one late bus, and a conversation that neither of them
           will quite be able to explain afterwards.</p>
         <span class="card-byline">— submitted anonymously, age 16</span>
+        <span class="card-read-more">Read piece →</span>
       </div>
-    </article>
+    </a>
 
-    <article class="content-card card-wide">
+    <a class="content-card card-wide card-link" href="javascript:void(0)" onclick="openPiece('things-i-left-in-the-old-house')" role="button" tabindex="0">
       <div class="card-image img-creative-2"></div>
       <div class="card-body">
         <span class="card-label">fiction — flash fiction</span>
         <h3>Things I Left in the Old House</h3>
         <p>A list-poem-turned-story about growing up and moving on, one room at a time.</p>
+        <span class="card-read-more">Read piece →</span>
       </div>
-    </article>
+    </a>
 
     <div class="sticky-note note-creative">
       <p>writing prompt:<br>"the last text<br>you never sent"</p>
@@ -1049,7 +1157,7 @@ img{ max-width: 100%; display: block; }
   </div>
 
   <div class="poem-grid">
-    <article class="poem-card poem-card--rotate-left">
+    <a class="poem-card poem-card--rotate-left card-link" href="javascript:void(0)" onclick="openPiece('some-days-are-just-tuesdays')" role="button" tabindex="0">
       <div class="washi-strip strip-poem"></div>
       <span class="card-label">poem</span>
       <h3>"some days are just tuesdays"</h3>
@@ -1060,9 +1168,10 @@ img{ max-width: 100%; display: block; }
         and that's allowed, too.
       </p>
       <span class="card-byline">— submitted anonymously, age 15</span>
-    </article>
+      <span class="card-read-more">Read piece →</span>
+    </a>
 
-    <article class="poem-card poem-card--rotate-right">
+    <a class="poem-card poem-card--rotate-right card-link" href="javascript:void(0)" onclick="openPiece('directions-to-my-room')" role="button" tabindex="0">
       <span class="card-label">poem</span>
       <h3>"directions to my room"</h3>
       <p class="poem-excerpt">
@@ -1072,9 +1181,10 @@ img{ max-width: 100%; display: block; }
         bring snacks, stay a while.
       </p>
       <span class="card-byline">— submitted anonymously, age 17</span>
-    </article>
+      <span class="card-read-more">Read piece →</span>
+    </a>
 
-    <article class="poem-card poem-card--rotate-left poem-card--small">
+    <a class="poem-card poem-card--rotate-left poem-card--small card-link" href="javascript:void(0)" onclick="openPiece('haiku-for-finals-week')" role="button" tabindex="0">
       <div class="paperclip-deco clip-poem"></div>
       <span class="card-label">poem</span>
       <h3>"haiku for finals week"</h3>
@@ -1083,7 +1193,8 @@ img{ max-width: 100%; display: block; }
         the highlighter bleeds<br>
         through page after page.
       </p>
-    </article>
+      <span class="card-read-more">Read piece →</span>
+    </a>
   </div>
 </section>
 
@@ -1096,32 +1207,35 @@ img{ max-width: 100%; display: block; }
   </div>
 
   <div class="card-grid card-grid--list">
-    <article class="content-card card-row">
+    <a class="content-card card-row card-link" href="javascript:void(0)" onclick="openPiece('what-our-generation-listens-to')" role="button" tabindex="0">
       <div class="card-image img-article-1"></div>
       <div class="card-body">
         <span class="card-label">article — culture</span>
         <h3>What Our Generation Actually Listens To (And Why Playlists Lie)</h3>
         <p>A breakdown of the music that's really on repeat versus what shows up on public profiles.</p>
+        <span class="card-read-more">Read piece →</span>
       </div>
-    </article>
+    </a>
 
-    <article class="content-card card-row">
+    <a class="content-card card-row card-link" href="javascript:void(0)" onclick="openPiece('how-to-start-writing')" role="button" tabindex="0">
       <div class="card-image img-article-2"></div>
       <div class="card-body">
         <span class="card-label">article — how-to</span>
         <h3>How to Start Writing When You Don't Feel Like a "Writer"</h3>
         <p>Practical, low-pressure ways to get words on a page — even on the days you're convinced you have nothing to say.</p>
+        <span class="card-read-more">Read piece →</span>
       </div>
-    </article>
+    </a>
 
-    <article class="content-card card-row">
+    <a class="content-card card-row card-link" href="javascript:void(0)" onclick="openPiece('three-books-that-dont-talk-down')" role="button" tabindex="0">
       <div class="card-image img-article-3"></div>
       <div class="card-body">
         <span class="card-label">article — review</span>
         <h3>Three Books That Don't Talk Down to Teenagers</h3>
         <p>Recommendations for readers who are tired of being underestimated by the YA shelf.</p>
+        <span class="card-read-more">Read piece →</span>
       </div>
-    </article>
+    </a>
   </div>
 </section>
 
@@ -1248,5 +1362,49 @@ submitForm.addEventListener('submit', async (e) => {
 });
 
 </script>
+
+<!-- ===================== PIECE MODAL ===================== -->
+<div class="piece-modal" id="pieceModal" aria-hidden="true">
+  <div class="piece-modal-backdrop" onclick="closePiece()"></div>
+  <div class="piece-modal-content" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button class="piece-modal-close" onclick="closePiece()" aria-label="Close">&times;</button>
+    <span class="piece-label" id="modalLabel"></span>
+    <h2 class="piece-title" id="modalTitle"></h2>
+    <span class="piece-byline" id="modalByline"></span>
+    <div class="piece-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+const PIECES = {"stay-out-of-it": {"label": "POLITICAL \u2014 OPINION", "title": "On Being Told to \"Stay Out of It\"", "byline": "\u2014 submitted anonymously, age 17", "paragraphs": ["Every time I bring up something happening in the news, someone tells me to focus on school instead. As if caring about the world and caring about my grades are two things that can't exist in the same sentence.", "Here's the thing: the decisions being made right now, about climate, about education, about what rights people my age will or won't have, are decisions about my future. I don't get a vote yet, but I do get an opinion, and I get a voice.", "Staying quiet has never been neutral. Silence just means the people already talking get to keep talking without anyone pushing back. So no, I won't stay out of it. None of us should have to.", "This generation grew up online, watching everything unfold in real time. We're not naive about how the world works, we're paying closer attention than anyone gives us credit for. And that attention is exactly why we're not staying quiet."]}, "vote-i-cant-cast-yet": {"label": "POLITICAL \u2014 ESSAY", "title": "The Vote I Can't Cast Yet", "byline": "\u2014 submitted anonymously, age 16", "paragraphs": ["I've started reading about candidates, policies, and elections the way some people read about sports, checking updates, forming opinions, getting frustrated. And then I remember: none of it actually counts as a vote from me.", "It's a strange kind of caring, this in-between space. Old enough to understand what's at stake, too young to have a say in it. I think a lot of people my age feel this, even if we don't say it out loud.", "What I've realized is that caring early matters anyway. The opinions I'm forming now, about fairness, about the environment, about how people should be treated, those don't switch on the day I turn 18. They're being built right now, in conversations like this one.", "So while I wait for my actual vote, I'm using the voice I do have: talking to people, writing things down, paying attention. It's not nothing."]}, "the-last-bus-home": {"label": "FICTION \u2014 SHORT STORY", "title": "The Last Bus Home", "byline": "\u2014 submitted anonymously, age 16", "paragraphs": ["The 11:42 was always empty this time of night, which was why Mara liked it. Tonight, though, there was someone else, an older woman near the back, holding a paper bag of something that smelled like cinnamon.", "\"Long day?\" the woman asked, not looking up.", "Mara nodded, then realized the woman couldn't see her nod. \"Yeah,\" she said instead.", "\"Me too,\" the woman said. \"Forty years of long days, actually. Tonight's my last shift.\"", "Mara didn't know what to say to that, so she said nothing, and the bus rattled on through the dark. After a while, the woman spoke again, quieter this time.", "\"You know what nobody tells you? The last day of anything feels exactly like every other day. You keep waiting for it to feel different. It doesn't.\"", "The bus slowed for Mara's stop. She stood, hesitated, then sat back down. One more stop wouldn't hurt.", "\"What was the job?\" Mara asked.", "The woman smiled, the first time all night. \"Let me tell you about it.\"", "And for the next eleven minutes, somewhere between two streetlights, a stranger told another stranger the story of her whole working life, and neither of them would ever quite be able to explain afterwards why it mattered so much."]}, "things-i-left-in-the-old-house": {"label": "FICTION \u2014 FLASH FICTION", "title": "Things I Left in the Old House", "byline": "\u2014 submitted anonymously, age 15", "paragraphs": ["In the kitchen: a height chart penciled on the doorframe, stopping abruptly at fourteen. Whoever lives here now probably painted over it without a second thought.", "In my bedroom: a glow-in-the-dark star, stuck too high to reach without a chair, that I never bothered to take down because by the time we moved, I didn't believe in it anymore anyway.", "In the bathroom: a chip in the tile from the time I dropped my mom's perfume bottle, and the apology I never quite finished giving her about it.", "In the backyard: a treehouse that was really just three planks and a lot of imagination, and an entire summer of being someone slightly braver than I actually was.", "In the hallway: the sound of everyone's footsteps, which I didn't know I'd memorized until I started listening for them in the new house and not finding them.", "I didn't leave anything on purpose. But growing up, I'm learning, is just a long list of things you didn't mean to leave behind, and a longer list of things you didn't know you'd miss."]}, "some-days-are-just-tuesdays": {"label": "POEM", "title": "\"some days are just tuesdays\"", "byline": "\u2014 submitted anonymously, age 15", "paragraphs": ["some days are just tuesdays<br>grey at the edges,<br>ordinary all the way through \u2014<br>and that's allowed, too.", "no big feeling waiting<br>at the bottom of the day,<br>no lesson folded into it,<br>nothing to write home about.", "just the bus, the homework,<br>the same walk back,<br>the same tired light<br>through the same window.", "and maybe that's the quiet relief of it \u2014<br>that not every day<br>has to mean something<br>to count."]}, "directions-to-my-room": {"label": "POEM", "title": "\"directions to my room\"", "byline": "\u2014 submitted anonymously, age 17", "paragraphs": ["turn left at the unfinished homework,<br>past the mirror i avoid,<br>you'll find me on the floor \u2014<br>bring snacks, stay a while.", "mind the charger cords,<br>they bite if you're not careful,<br>and the pile of clothes<br>is a load-bearing structure now.", "the walls know more about me<br>than most people do \u2014<br>ask them nicely<br>and they might tell you something true.", "but mostly, just come in,<br>sit wherever there's space,<br>and don't mind the mess \u2014<br>it's just where I think out loud."]}, "haiku-for-finals-week": {"label": "POEM", "title": "\"haiku for finals week\"", "byline": "\u2014 submitted anonymously", "paragraphs": ["coffee, gone cold, gone again \u2014<br>the highlighter bleeds<br>through page after page.", "midnight, and the desk lamp<br>hums the only song<br>that still makes sense.", "tomorrow it ends \u2014<br>for now, just one more page,<br>then maybe sleep."]}, "what-our-generation-listens-to": {"label": "ARTICLE \u2014 CULTURE", "title": "What Our Generation Actually Listens To (And Why Playlists Lie)", "byline": "\u2014 submitted anonymously, age 17", "paragraphs": ["Open up most people's public playlists and you'll see a curated version of their taste: the artists they want to be associated with, the genres that look good on a profile. But ask what's actually been on repeat at 1am, and you'll get a very different answer.", "I asked a handful of people my age what they've actually listened to most this month versus what's at the top of their public playlists. The gap was bigger than I expected. Public playlists skewed towards what's currently trending or what felt impressive to share. Private listening was messier, more repetitive, often tied to a specific mood or memory rather than a desire to look a certain way.", "There's nothing wrong with curating what you show people, that's normal. But it's worth noticing the difference between music as identity and music as comfort. The songs we go back to over and over usually aren't the ones we're posting about.", "Maybe the most honest playlist anyone has is the one nobody else sees, the late-night one, the one tied to a specific memory, the one you'd be a little embarrassed to explain. And maybe that's exactly the one worth paying attention to."]}, "how-to-start-writing": {"label": "ARTICLE \u2014 HOW-TO", "title": "How to Start Writing When You Don't Feel Like a \"Writer\"", "byline": "\u2014 submitted anonymously, age 16", "paragraphs": ["A lot of people who write don't think of themselves as \"writers.\" That word can feel like it belongs to someone else, someone more talented, more serious, more put-together. But writing isn't a club with a membership card. Here are a few low-pressure ways to start.", "Start smaller than you think you should. A single sentence about something that happened today. A list of things you noticed. You don't need a finished idea to start, you just need a starting point.", "Write things you'd never show anyone. Some of the most useful writing is writing nobody else will ever read. It takes the pressure off completely, and often that's where the more interesting ideas show up.", "Don't wait to feel like a writer before you start writing. The feeling, if it comes at all, usually comes after, not before. Most people who write regularly didn't start because they felt ready. They started anyway, and the readiness came later, if it came at all.", "And if none of that works: just send something in. Half-formed, unfinished, weird, whatever it is. That's kind of the whole point of this place."]}, "three-books-that-dont-talk-down": {"label": "ARTICLE \u2014 REVIEW", "title": "Three Books That Don't Talk Down to Teenagers", "byline": "\u2014 submitted anonymously, age 16", "paragraphs": ["A lot of books aimed at teenagers seem to assume the reader needs everything explained twice, with a moral lesson helpfully underlined at the end. These aren't those books. They trust the reader to sit with complicated, unresolved, sometimes uncomfortable things, which, honestly, is more respectful than most \"young adult\" labeling suggests.", "The first deals with a friendship falling apart slowly, without a dramatic fight or a clean villain, just the quiet drift that happens sometimes. It doesn't try to fix it by the last page, which felt true to life in a way that surprised me.", "The second follows a character making a genuinely difficult decision with no good options, and the book never tells you whether they were right. You're left to think about it yourself, which is rare and, honestly, kind of refreshing.", "The third is less of a story and more of a series of observations about being a teenager, written with a dry humor that never feels like it's performing for an adult audience pretending to understand \"kids these days.\"", "What connects all three is that they don't flatten the experience of being young into something simple or resolved. They leave room for things to be complicated, which, it turns out, is exactly what makes them worth reading."]}};
+
+function openPiece(slug) {
+  const data = PIECES[slug];
+  if (!data) return;
+  document.getElementById('modalLabel').textContent = data.label;
+  document.getElementById('modalTitle').textContent = data.title;
+  document.getElementById('modalByline').textContent = data.byline || '';
+  document.getElementById('modalByline').style.display = data.byline ? 'block' : 'none';
+  const body = document.getElementById('modalBody');
+  body.innerHTML = data.paragraphs.map(p => `<p>${p}</p>`).join('');
+  const modal = document.getElementById('pieceModal');
+  modal.classList.add('open');
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  modal.querySelector('.piece-modal-content').scrollTop = 0;
+}
+
+function closePiece() {
+  const modal = document.getElementById('pieceModal');
+  modal.classList.remove('open');
+  modal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closePiece();
+});
+</script>
+
 </body>
 </html>
